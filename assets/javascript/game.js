@@ -6,67 +6,71 @@ var letters = ["a", "b", "c", "d", "e", "f", "g", "h",
 
 // Stuff for the player
 
-var letter = "h";
+var letter = "";
 var winNum = 0;
 var lossNum = 0;
 var guessesLeft = 6;
 var lettersGuessed = [];
+var goldenLetter = [];
 
 //Start the thing over
-startOver();
-display ();
+window.onload = startOver();
+window.onload = display();
 
 
 // Browser picks a letter for user to guess
 var goldenLetter = letters[Math.floor(Math.random() * letters.length)];
-
+console.log("Winning letter is: " + goldenLetter); //Maybe comment this out later...?...
 
 // Check to see if the user guesses the correct letter (6 tries)
 document.onkeyup = function (event) {
     var userChoice = event.key;
-    console.log("Winning letter is: " + goldenLetter); //Maybe comment this out later...?...
+    console.log(userChoice);
+    lettersGuessed.push(userChoice);
+
     if (userChoice === goldenLetter) {
-        right(); 
+        right();
         console.log("Correct Guess")
     }
-    else if (tries === 0) {
+    else if (guessesLeft === 0) {
         losses();
     }
     else {
         tryAgain();
-        console.log("Incorrect Guess");
+        console.log("Incorrect Guess: " + userChoice);
     }
-    display ();
+    display();
 }
 
 function display() {
-    document.getElementById("letter").innerHTML=letter;
-    // document.getElementById("wins").innerHTML = winNum;
-    // document.getElementById("losses").innerHTML = lossNum;
-    // document.getElementById("guessesLeft").innerHTML = guessesLeft;
-    // document.getElementById("lettersGuessed").innerHTML = lettersGuessed.join(",");
-
+    document.getElementById("wins").innerHTML = winNum;
+    document.getElementById("losses").innerHTML = lossNum;
+    document.getElementById("guessesLeft").innerHTML = guessesLeft;
+    document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
 }
 
 function right() {
-    wins++;
+    winNum++;
     startOver();
 }
 
-function loses() {
-    // loser++;
+function losses() {
+    lossNum++;
     startOver();
 }
 
 function tryAgain() {
-    tries--;
+    guessesLeft--;
 
 }
 
+
+
 function startOver() {
     guessesLeft = 6;
-    guessed = [];
-    var goldenLetter = letters[Math.floor(Math.random() * letters.length)];
+    lettersGuessed = [];
+    goldenLetter = letters[Math.floor(Math.random() * letters.length)];
+    console.log("New winning letter: " + goldenLetter);
 }
 
 
